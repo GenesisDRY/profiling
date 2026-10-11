@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member List | SK KK Profiling System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="sidebar.css" rel="stylesheet">
+
+<style>
+
+:root{
+    --kk-primary:var(--bs-primary);
+    --kk-primary-dark:var(--bs-primary-text-emphasis);
+    --kk-primary-soft:rgba(var(--bs-primary-rgb),.12);
+    --black:var(--bs-body-color);
+    --dark:var(--bs-primary-text-emphasis);
+    --cream:var(--bs-tertiary-bg);
+    --line:var(--bs-border-color);
+    --muted:var(--bs-secondary-color);
+    --white:#ffffff;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:var(--bs-tertiary-bg);
+    color:var(--black);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+a{
+    text-decoration:none;
+}
+
+.top-strip{
+    height:7px;
+    background:var(--bs-primary);
+}
+
+header{
+    background:#fff!important;
+    border-bottom:1px solid var(--line)!important;
+}
+
+header h1{
+    font-weight:900;
+}
+
+.btn-success{
+    --bs-btn-bg:var(--bs-body-color);
+    --bs-btn-border-color:var(--bs-body-color);
+    --bs-btn-hover-bg:var(--kk-primary);
+    --bs-btn-hover-border-color:var(--kk-primary);
+    --bs-btn-hover-color:#fff;
+    --bs-btn-active-bg:var(--bs-body-color);
+    --bs-btn-active-border-color:var(--bs-body-color);
+    font-weight:800;
+}
+
+.btn-outline-success{
+    --bs-btn-color:var(--bs-body-color);
+    --bs-btn-border-color:var(--bs-body-color);
+    --bs-btn-hover-bg:var(--kk-primary);
+    --bs-btn-hover-border-color:var(--kk-primary);
+    --bs-btn-hover-color:#fff;
+    --bs-btn-active-bg:var(--kk-primary);
+    --bs-btn-active-border-color:var(--kk-primary);
+    font-weight:700;
+}
+
+.member-hero{
+    position:relative;
+    overflow:hidden;
+    background:var(--bs-primary);
+    border-radius:26px;
+    padding:28px;
+    box-shadow:0 12px 30px rgba(20,20,20,.08);
+}
+
+.member-hero:after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    right:-70px;
+    top:-95px;
+    background:var(--bs-primary-text-emphasis);
+    opacity:.08;
+}
+
+.member-hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.member-icon{
+    width:58px;
+    height:58px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:17px;
+    background:var(--bs-primary-text-emphasis);
+    color:var(--kk-primary);
+    font-size:1.6rem;
+}
+
+.member-hero h2{
+    font-weight:950;
+    letter-spacing:-.7px;
+}
+
+.member-hero p{
+    color:var(--bs-body-color);
+    max-width:680px;
+}
+
+.stat-card{
+    height:100%;
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:#fff;
+    box-shadow:0 8px 20px rgba(20,20,20,.05);
+    transition:.2s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 28px rgba(20,20,20,.09);
+}
+
+.stat-icon{
+    width:45px;
+    height:45px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:var(--bs-primary);
+    color:var(--bs-body-color);
+    font-size:1.2rem;
+}
+
+.stat-number{
+    font-size:1.8rem;
+    font-weight:950;
+    letter-spacing:-1px;
+}
+
+.member-card{
+    border:1px solid var(--line)!important;
+    border-radius:22px!important;
+    overflow:hidden;
+    box-shadow:0 8px 22px rgba(20,20,20,.05)!important;
+    background:#fff;
+}
+
+.member-card .card-header{
+    background:#fff!important;
+    border-bottom:1px solid var(--line);
+}
+
+.search-box{
+    position:relative;
+}
+
+.search-box i{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:var(--bs-secondary-color);
+}
+
+.search-box input{
+    padding-left:42px;
+}
+
+.form-control,
+.form-select{
+    border:1px solid var(--bs-border-color);
+    border-radius:12px;
+    min-height:43px;
+    box-shadow:none!important;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:var(--bs-body-color);
+    box-shadow:0 0 0 3px rgba(var(--bs-primary-rgb),.28)!important;
+}
+
+.table{
+    --bs-table-hover-bg:rgba(var(--bs-primary-rgb),.08);
+}
+
+.table thead th{
+    background:rgba(var(--bs-primary-rgb),.08);
+    color:var(--bs-secondary-color);
+    font-size:.73rem;
+    text-transform:uppercase;
+    letter-spacing:.45px;
+    white-space:nowrap;
+}
+
+.table td{
+    font-size:.86rem;
+    white-space:nowrap;
+}
+
+.member-avatar{
+    width:39px;
+    height:39px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:var(--bs-primary);
+    color:var(--bs-body-color);
+    font-weight:900;
+    flex:none;
+}
+
+.member-name{
+    font-weight:800;
+}
+
+.member-id{
+    font-size:.72rem;
+    color:var(--bs-secondary-color);
+}
+
+.status-active{
+    background:var(--bs-primary);
+    color:var(--bs-body-color);
+}
+
+.status-pending{
+    background:var(--bs-secondary-bg-subtle);
+    color:var(--bs-secondary-text-emphasis);
+}
+
+.status-inactive{
+    background:var(--bs-secondary-bg-subtle);
+    color:var(--bs-secondary-text-emphasis);
+}
+
+.action-btn{
+    width:34px;
+    height:34px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+}
+
+.pagination .page-link{
+    color:var(--bs-body-color);
+    border-color:var(--line);
+}
+
+.pagination .page-item.active .page-link{
+    background:var(--bs-primary-text-emphasis);
+    border-color:var(--bs-body-color);
+    color:#fff;
+}
+
+.empty-state{
+    display:none;
+    padding:50px 20px;
+    text-align:center;
+    color:var(--bs-secondary-color);
+}
+
+.empty-state i{
+    font-size:3rem;
+    color:var(--bs-border-color);
+}
+
+@media(max-width:575px){
+
+    .member-hero{
+        padding:22px;
+    }
+
+    .member-hero h2{
+        font-size:1.55rem;
+    }
+
+    .stat-number{
+        font-size:1.5rem;
+    }
+
+}
+ </style>
+
+</head>
+
+<body>
+
+<div class="top-strip"></div>
+
+<script src="sidebar.js"></script>
+
+<div class="page-content">
+
+<header class="bg-white border-bottom sticky-top">
+
+    <div class="d-flex align-items-center gap-2 gap-md-3 px-3 px-lg-4 py-2 py-lg-3">
+
+        <button class="btn btn-outline-success d-lg-none"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebar"
+                aria-controls="sidebar">
+
+            <i class="bi bi-list fs-5"></i>
+
+        </button>
+
+        <div>
+
+            <h1 class="h5 fw-bold mb-0">
+                Member List
+            </h1>
+
+            <div class="text-muted small d-none d-sm-block">
+                View and manage registered KK youth members
+            </div>
+
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-2 gap-md-3">
+
+            <a href="announcements.html"
+               class="btn btn-outline-success btn-sm position-relative"
+               aria-label="Notifications">
+
+                <i class="bi bi-bell"></i>
+
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                      style="background:var(--bs-primary);color:var(--bs-body-color);">
+                    3
+                </span>
+
+            </a>
+
+            <span class="avatar"
+                  style="width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--bs-primary);color:var(--bs-body-color);font-weight:900;border:2px solid var(--bs-body-color);">
+                JD
+            </span>
+
+            <div class="d-none d-md-block lh-sm">
+
+                <div class="fw-semibold small">
+                    Juan A. Dela Cruz
+                </div>
+
+                <div class="text-muted" style="font-size:.75rem;">
+                    SK CHAIRMAN
+                </div>
+
+            </div>
+
+            <a href="login.html"
+               class="btn btn-success btn-sm">
+
+                <i class="bi bi-box-arrow-right me-1"></i>
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<main class="container-fluid p-3 p-lg-4">
+
+    <section class="member-hero mb-4">
+
+        <div class="member-hero-content">
+
+            <div class="member-icon mb-3">
+                <i class="bi bi-people-fill"></i>
+            </div>
+
+            <h2 class="mb-2">
+                KK Member List
+            </h2>
+
+            <p class="mb-3">
+                Manage, search, and view the registered youth members
+                of Barangay Sikat.
+            </p>
+
+            <a href="profiling.html"
+               class="btn btn-dark rounded-pill px-4">
+
+                <i class="bi bi-person-plus me-2"></i>
+                Add New Member
+
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-3 mb-4">
+
+        <div class="col">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <span class="fw-semibold text-muted small">
+                            Total Members
+                        </span>
+
+                        <span class="stat-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </span>
+
+                    </div>
+
+                    <h3 class="stat-number mb-1"
+                        id="totalMembers">
+                        1,248
+                    </h3>
+
+                    <p class="small text-muted mb-0">
+                        Registered KK youth
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <span class="fw-semibold text-muted small">
+                            Active Members
+                        </span>
+
+                        <span class="stat-icon">
+                            <i class="bi bi-person-check-fill"></i>
+                        </span>
+
+                    </div>
+
+                    <h3 class="stat-number mb-1"
+                        id="activeMembers">
+                        986
+                    </h3>
+
+                    <p class="small text-muted mb-0">
+                        Currently active
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <span class="fw-semibold text-muted small">
+                            Pending
+                        </span>
+
+                        <span class="stat-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </span>
+
+                    </div>
+
+                    <h3 class="stat-number mb-1">
+                        18
+                    </h3>
+
+                    <p class="small text-muted mb-0">
+                        Awaiting verification
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col">
+
+            <div class="card stat-card">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+
+                        <span class="fw-semibold text-muted small">
+                            Inactive
+                        </span>
+
+                        <span class="stat-icon">
+                            <i class="bi bi-person-dash-fill"></i>
+                        </span>
+
+                    </div>
+
+                    <h3 class="stat-number mb-1">
+                        244
+                    </h3>
+
+                    <p class="small text-muted mb-0">
+                        Inactive profiles
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="card member-card">
+
+        <div class="card-header p-3 p-lg-4">
+
+            <div class="d-flex flex-column flex-lg-row gap-3 justify-content-between">
+
+                <div>
+
+                    <h2 class="h6 fw-bold mb-1">
+                        Registered KK Members
+                    </h2>
+
+                    <div class="small text-muted">
+                        Search and filter member profiles
+                    </div>
+
+                </div>
+
+                <div class="d-flex flex-column flex-md-row gap-2">
+
+                    <div class="search-box">
+
+                        <i class="bi bi-search"></i>
+
+                        <input type="text"
+                               class="form-control"
+                               id="searchInput"
+                               placeholder="Search member...">
+
+                    </div>
+
+                    <select class="form-select"
+                            id="purokFilter">
+
+                        <option value="">
+                            All Purok
+                        </option>
+
+                        <option value="Purok 1">
+                            Purok 1
+                        </option>
+
+                        <option value="Purok 2">
+                            Purok 2
+                        </option>
+
+                        <option value="Purok 3">
+                            Purok 3
+                        </option>
+
+                        <option value="Purok 4">
+                            Purok 4
+                        </option>
+
+                        <option value="Purok 5">
+                            Purok 5
+                        </option>
+
+                    </select>
+
+                    <select class="form-select"
+                            id="statusFilter">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0"
+                   id="memberTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Member ID
+                        </th>
+
+                        <th>
+                            Full Name
+                        </th>
+
+                        <th>
+                            Age
+                        </th>
+
+                        <th>
+                            Sex
+                        </th>
+
+                        <th>
+                            Purok / Sitio
+                        </th>
+
+                        <th>
+                            Contact
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th class="text-end">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <span class="member-id">
+                                KK-2026-014
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="member-avatar">
+                                    MC
+                                </span>
+
+                                <div>
+                                    <div class="member-name">
+                                        Maria Clara Santos
+                                    </div>
+
+                                    <div class="member-id">
+                                        Female
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            18
+                        </td>
+
+                        <td>
+                            Female
+                        </td>
+
+                        <td>
+                            Purok 1
+                        </td>
+
+                        <td>
+                            0917 123 4567
+                        </td>
+
+                        <td>
+                            <span class="badge status-active">
+                                Active
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="View Profile">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="Edit Profile">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger action-btn delete-btn"
+                                    title="Delete Member">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="member-id">
+                                KK-2026-013
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="member-avatar">
+                                    JD
+                                </span>
+
+                                <div>
+                                    <div class="member-name">
+                                        Juan Miguel Dela Cruz
+                                    </div>
+
+                                    <div class="member-id">
+                                        Male
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            21
+                        </td>
+
+                        <td>
+                            Male
+                        </td>
+
+                        <td>
+                            Purok 2
+                        </td>
+
+                        <td>
+                            0918 234 5678
+                        </td>
+
+                        <td>
+                            <span class="badge status-active">
+                                Active
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="View Profile">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="Edit Profile">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger action-btn delete-btn"
+                                    title="Delete Member">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="member-id">
+                                KK-2026-012
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="member-avatar">
+                                    AR
+                                </span>
+
+                                <div>
+                                    <div class="member-name">
+                                        Angelica Reyes
+                                    </div>
+
+                                    <div class="member-id">
+                                        Female
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            17
+                        </td>
+
+                        <td>
+                            Female
+                        </td>
+
+                        <td>
+                            Purok 3
+                        </td>
+
+                        <td>
+                            0919 345 6789
+                        </td>
+
+                        <td>
+                            <span class="badge status-pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="View Profile">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="Edit Profile">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger action-btn delete-btn"
+                                    title="Delete Member">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="member-id">
+                                KK-2026-011
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="member-avatar">
+                                    CB
+                                </span>
+
+                                <div>
+                                    <div class="member-name">
+                                        Christian Bautista
+                                    </div>
+
+                                    <div class="member-id">
+                                        Male
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            24
+                        </td>
+
+                        <td>
+                            Male
+                        </td>
+
+                        <td>
+                            Purok 1
+                        </td>
+
+                        <td>
+                            0920 456 7890
+                        </td>
+
+                        <td>
+                            <span class="badge status-active">
+                                Active
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="View Profile">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="Edit Profile">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger action-btn delete-btn"
+                                    title="Delete Member">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            <span class="member-id">
+                                KK-2026-010
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <span class="member-avatar">
+                                    SG
+                                </span>
+
+                                <div>
+                                    <div class="member-name">
+                                        Sofia Marie Gonzales
+                                    </div>
+
+                                    <div class="member-id">
+                                        Female
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            19
+                        </td>
+
+                        <td>
+                            Female
+                        </td>
+
+                        <td>
+                            Purok 4
+                        </td>
+
+                        <td>
+                            0921 567 8901
+                        </td>
+
+                        <td>
+                            <span class="badge status-inactive">
+                                Inactive
+                            </span>
+                        </td>
+
+                        <td class="text-end">
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="View Profile">
+
+                                <i class="bi bi-eye"></i>
+
+                            </a>
+
+                            <a href="profiling.html"
+                               class="btn btn-sm btn-outline-success action-btn"
+                               title="Edit Profile">
+
+                                <i class="bi bi-pencil"></i>
+
+                            </a>
+
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger action-btn delete-btn"
+                                    title="Delete Member">
+
+                                <i class="bi bi-trash"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div class="empty-state" id="emptyState">
+
+                <i class="bi bi-person-x"></i>
+
+                <h5 class="fw-bold mt-3">
+                    No members found
+                </h5>
+
+                <p class="small mb-0">
+                    Try changing your search or filter.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="card-footer bg-white border-top p-3">
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+
+                <div class="small text-muted"
+                     id="resultCount">
+                    Showing 5 members
+                </div>
+
+                <nav aria-label="Member list pagination">
+
+                    <ul class="pagination pagination-sm mb-0">
+
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">
+                                Previous
+                            </a>
+                        </li>
+
+                        <li class="page-item active">
+                            <a class="page-link" href="#">
+                                1
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                2
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                3
+                            </a>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                Next
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+const purokFilter = document.getElementById("purokFilter");
+const statusFilter = document.getElementById("statusFilter");
+const tableRows = document.querySelectorAll("#memberTable tbody tr");
+const emptyState = document.getElementById("emptyState");
+const resultCount = document.getElementById("resultCount");
+
+function filterMembers(){
+
+    const search = searchInput.value.toLowerCase();
+    const purok = purokFilter.value.toLowerCase();
+    const status = statusFilter.value.toLowerCase();
+
+    let visibleCount = 0;
+
+    tableRows.forEach(function(row){
+
+        const rowText = row.innerText.toLowerCase();
+
+        const rowPurok = row.cells[4].innerText.toLowerCase();
+        const rowStatus = row.cells[6].innerText.toLowerCase();
+
+        const matchesSearch =
+            rowText.includes(search);
+
+        const matchesPurok =
+            purok === "" || rowPurok === purok;
+
+        const matchesStatus =
+            status === "" || rowStatus === status;
+
+        if(matchesSearch && matchesPurok && matchesStatus){
+
+            row.style.display = "";
+            visibleCount++;
+
+        }else{
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+    if(visibleCount === 0){
+        emptyState.style.display = "block";
+    }else{
+        emptyState.style.display = "none";
+    }
+
+    resultCount.textContent =
+        "Showing " + visibleCount + " member" +
+        (visibleCount !== 1 ? "s" : "");
+
+}
+
+searchInput.addEventListener("input", filterMembers);
+purokFilter.addEventListener("change", filterMembers);
+statusFilter.addEventListener("change", filterMembers);
+
+document.querySelectorAll(".delete-btn").forEach(function(button){
+
+    button.addEventListener("click", function(){
+
+        const row = this.closest("tr");
+
+        const memberName =
+            row.querySelector(".member-name").textContent.trim();
+
+        if(confirm("Are you sure you want to delete " + memberName + "?")){
+
+            row.remove();
+
+            filterMembers();
+
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
