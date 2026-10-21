@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="sidebar.css" rel="stylesheet">
+    <link href="sidebar.css?v=8" rel="stylesheet">
 
 <style>
 
@@ -352,27 +352,25 @@ textarea.form-control{ min-height:0; }
             </div>
         </div>
 
-        <div class="ms-auto d-flex align-items-center gap-2 gap-md-3">
+        <div class="ms-auto header-account-area">
 
             <a href="announcements.php"
-               class="btn btn-outline-success btn-sm position-relative"
+               class="header-notification"
                aria-label="Notifications">
                 <i class="bi bi-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                      style="background:var(--bs-primary);color:var(--bs-body-color);">3</span>
+                <span class="header-notification-count">3</span>
             </a>
 
-            <span class="avatar"
-                  style="width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:var(--bs-primary);color:var(--bs-body-color);font-weight:900;border:2px solid var(--bs-body-color);">
+            <span class="header-avatar">
                 <?= e(uinit()) ?>
             </span>
 
-            <div class="d-none d-md-block lh-sm">
-                <div class="fw-semibold small"><?= e(uname()) ?></div>
-                <div class="text-muted" style="font-size:.75rem;"><?= e(strtoupper(urole())) ?></div>
+            <div class="d-none d-md-block header-identity">
+                <div class="header-identity-name"><?= e(uname()) ?></div>
+                <div class="header-identity-role"><?= e(strtoupper(urole())) ?></div>
             </div>
 
-            <a href="logout.php" class="btn btn-success btn-sm">
+            <a href="logout.php" class="btn btn-sm header-logout">
                 <i class="bi bi-box-arrow-right me-1"></i>
                 <?= is_public() ? 'Official Login' : 'Logout' ?>
             </a>
@@ -783,7 +781,7 @@ textarea.form-control{ min-height:0; }
 <div id="printArea"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="sk-data.js"></script>
+<script src="sk-data.js?v=2"></script>
 <script>
 (function () {
     'use strict';
@@ -796,7 +794,8 @@ textarea.form-control{ min-height:0; }
     }
     var MIN_AGE = 15, MAX_AGE = 30, PAGE_SIZE = 12;
     var BARANGAY = 'Sikat', CITY = 'Alfonso', PROVINCE = 'Cavite';
-    var POSITIONS = D.POSITIONS, ROLES = D.ROLES;
+    var POSITIONS = D.POSITIONS.slice();
+    var ROLES = D.ROLES;
     var COMMITTEES = [
         'Committee on Education and Culture',
         'Committee on Environmental Protection',
@@ -810,6 +809,10 @@ textarea.form-control{ min-height:0; }
 
     /* ---------- helpers ---------- */
     function $(id) { return document.getElementById(id); }
+    function memberRoleOf(kkId) {
+        var role = D.roleOf(kkId);
+        return role && POSITIONS.indexOf(role.position) !== -1 ? role : null;
+    }
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -859,7 +862,7 @@ textarea.form-control{ min-height:0; }
     }
     function buildRecords() {
         return D.kk.map(function (m) {
-            var r = D.roleOf(m.id), age = m.birthDate ? calcAge(m.birthDate) : '';
+            var r = memberRoleOf(m.id), age = m.birthDate ? calcAge(m.birthDate) : '';
             var kkStatus = m.status === 'Archived' ? 'Archived' : 'Active';
             return {
                 key: m.id, kk: m, role: r || null, isSK: !!r, name: kkName(m), photo: m.photo || '', age: age,
@@ -1291,7 +1294,7 @@ textarea.form-control{ min-height:0; }
     var roleKkId = null, roleEditing = false, respTouched = false, yearTouched = false;
 
     function pickable() {
-        return D.kk.filter(function (m) { return m.status !== 'Archived' && !D.roleOf(m.id); })
+        return D.kk.filter(function (m) { return m.status !== 'Archived' && !memberRoleOf(m.id); })
             .sort(function (a, b) { return norm(kkName(a)).localeCompare(norm(kkName(b))); });
     }
     function renderPick() {
@@ -1319,7 +1322,7 @@ textarea.form-control{ min-height:0; }
         f.reset(); clearErrs(f);
         fillSelect($('rolePosition'), POSITIONS, 'Select SK position');
         fillSelect($('roleCommittee'), COMMITTEES, 'Select committee');
-        var role = kkId ? D.roleOf(kkId) : null, m = kkId ? D.kkById(kkId) : null;
+        var role = kkId ? memberRoleOf(kkId) : null, m = kkId ? D.kkById(kkId) : null;
         roleKkId = kkId || null; roleEditing = !!role; respTouched = false; yearTouched = false;
         $('roleModalTitle').textContent = role ? 'Edit SK Role and Term' : 'Assign SK Role';
         $('roleSaveLabel').textContent = role ? 'Update SK Role' : 'Assign SK Role';
@@ -1364,7 +1367,7 @@ textarea.form-control{ min-height:0; }
     /* position choices (synced with the hidden select used by the form) */
     function renderPosChoices() {
         var cur = $('rolePosition').value, exceptId = null;
-        if (roleKkId) { var ex = D.roleOf(roleKkId); if (ex) exceptId = ex.id; }
+        if (roleKkId) { var ex = memberRoleOf(roleKkId); if (ex) exceptId = ex.id; }
         $('posChoices').innerHTML = POSITIONS.map(function (p) {
             var cap = D.SEATS[p] || 1;
             var used = D.roles.filter(function (x) { return x.id !== exceptId && x.status === 'Active' && x.position === p; }).length;
@@ -1402,7 +1405,7 @@ textarea.form-control{ min-height:0; }
         if (!kkId) bad($('pickMember'), 'Select a KK member.');
         var m = kkId ? D.kkById(kkId) : null;
         if (kkId && !m) { notify('danger', 'This KK member no longer exists.'); modal('roleModal').hide(); renderAll(); return; }
-        var existing = kkId ? D.roleOf(kkId) : null;
+        var existing = kkId ? memberRoleOf(kkId) : null;
         if (existing && !roleEditing) { notify('danger', kkName(m) + ' already has an SK position. Edit that role instead.'); modal('roleModal').hide(); renderAll(); return; }
         if (m && m.status === 'Archived' && !existing) bad($('pickMember'), 'This KK record is archived and cannot be assigned an SK role.');
 

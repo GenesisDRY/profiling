@@ -134,7 +134,7 @@ function sk_role_valid_date($value, $field, $required = false) {
 
 function sk_role_validate_payload($input) {
     if (!is_array($input)) throw new RuntimeException('A role object is required.');
-    $positions = ['SK Chairperson', 'SK Vice Chairperson', 'SK Secretary', 'SK Treasurer', 'SK Kagawad'];
+    $positions = ['SK Chairperson', 'SK Secretary', 'SK Treasurer', 'SK Kagawad'];
     $committees = [
         'Committee on Education and Culture',
         'Committee on Environmental Protection',

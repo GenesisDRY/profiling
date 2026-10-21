@@ -9,7 +9,7 @@
 require_once __DIR__ . '/config.php';
 open_to_everyone();
 
-$POSITIONS = ['SK Chairperson', 'SK Vice Chairperson', 'SK Secretary', 'SK Treasurer', 'SK Kagawad'];
+$POSITIONS = ['SK Chairperson', 'SK Secretary', 'SK Treasurer', 'SK Kagawad'];
 
 function lp_json($key) {
     $st = db()->prepare('SELECT data_value FROM app_data WHERE data_key = ?');
@@ -135,6 +135,13 @@ $L_EVENTS   = 'announcements.php?view=public';
         .lp-logo{width:42px;height:42px;border-radius:50%;object-fit:cover}
         .lp-nav .nav-link{color:var(--lp-ink);font-weight:600}
         .lp-nav .nav-link:hover{color:var(--bs-primary)}
+        .lp-nav .header-logout,
+        .lp-nav .header-logout:visited,
+        .lp-nav .header-logout:active,
+        .lp-nav .header-logout.active{background:#212529;border:1px solid #212529;border-radius:5px;color:#fff;font-weight:700;white-space:nowrap;box-shadow:none;text-decoration:none}
+        .lp-nav .header-logout:hover,
+        .lp-nav .header-logout:focus-visible,
+        .lp-nav .header-logout:focus{background:#343a40;border-color:#343a40;color:#fff;box-shadow:0 0 0 .2rem rgba(33,37,41,.2);outline:none}
 
         /* hero */
         .lp-hero{background:var(--bs-primary);color:#fff;position:relative;overflow:hidden}
@@ -226,6 +233,7 @@ $L_EVENTS   = 'announcements.php?view=public';
                 <li class="nav-item ms-md-2">
                     <?php if ($isOfficer): ?>
                         <a class="btn btn-primary btn-sm px-3" href="dashboard.php"><i class="bi bi-grid-1x2-fill me-1"></i>Open dashboard</a>
+                        <a class="btn btn-sm px-3 header-logout" href="logout.php"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
                     <?php else: ?>
                         <a class="btn btn-outline-primary btn-sm px-3" href="login.php"><i class="bi bi-box-arrow-in-right me-1"></i>Official login</a>
                     <?php endif; ?>
