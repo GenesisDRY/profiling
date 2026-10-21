@@ -1,5 +1,5 @@
 /* =========================================================
-   SHARED SIDEBAR  (copied from dashboard.html)
+   SHARED SIDEBAR  (copied from dashboard.php)
    Usage: put this where the sidebar should be, right after
    <div class="top-strip"></div>:
         <script src="sidebar.js"></script>
@@ -8,31 +8,50 @@
    ========================================================= */
 (function () {
 
+    // saved display preference (Settings page): text size
+    try {
+        var sz = localStorage.getItem('kkTextSize');
+        if (sz === 'small') document.documentElement.style.fontSize = '15.5px';
+        else if (sz === 'large') document.documentElement.style.fontSize = '19.5px';
+    } catch (e) {}
+
     var MENU = [
         { title: null, items: [
-            ['dashboard.html',     'bi-grid-1x2-fill',             'Dashboard']
+            ['dashboard.php',     'bi-grid-1x2-fill',             'Dashboard']
         ]},
         { title: 'SK Management', items: [
-            ['sk-management.html', 'bi-person-vcard',              'SK Members']
+            ['sk-management.php', 'bi-calendar-check',             'SK Meetings'],
+            ['officials.php',     'bi-person-badge',              'SK Officials']
         ]},
         { title: 'KK Youth', items: [
-            ['registration.html',   'bi-person-plus-fill',          'KK Youth Profiling'],
-            ['members.html',       'bi-people',                    'Member List'],
-            ['announcements.html', 'bi-megaphone',                 'Announcements'],
-            ['participation.html', 'bi-graph-up-arrow',            'Participation Tracking'],
-            ['reports.html',       'bi-file-earmark-bar-graph',    'Reports'],
-            ['feedback.html',      'bi-chat-left-text',            'Feedback']
+            ['registration.php',   'bi-person-plus-fill',         'KK Youth Registration'],  
+            ['members.php',       'bi-people',                    'Member List'],
+            ['archives.php',      'bi-archive',                   'Archives'],
+            ['announcements.php', 'bi-megaphone',                 'Announcements'],
+            ['participation.php', 'bi-graph-up-arrow',            'Participation Tracking'],
+            ['reports.php',       'bi-file-earmark-bar-graph',    'Reports']
         ]},
         { title: 'System', items: [
-            ['settings.html',      'bi-gear',                      'Settings']
+            ['settings.php',      'bi-gear-fill',                 'Settings']
         ]}
     ];
 
-    var current = (location.pathname.split('/').pop() || 'dashboard.html').toLowerCase();
+    var publicMode = document.documentElement.classList.contains('is-public') || !!window.SK_PUBLIC;
+    if (publicMode) {
+        MENU = [
+            { title: null, items: [
+                ['index.php',         'bi-house-door',   'Landing Page'],
+                ['officials.php',     'bi-person-badge', 'SK Officials'],
+                ['announcements.php', 'bi-megaphone',    'Announcements']
+            ]}
+        ];
+    }
+
+    var current = (location.pathname.split('/').pop() || 'dashboard.php').toLowerCase();
 
     // Pages that belong to a menu item but have a different file name.
-    // (profiling.html is the same KK Member Profiling page as registration.html)
-    var ALIAS = { 'profiling.html': 'registration.html' };
+    // (profiling.php is the same KK Member Profiling page as registration.php)
+    var ALIAS = { 'profiling.php': 'registration.php' };
     current = ALIAS[current] || current;
 
     var nav = MENU.map(function (group, i) {
@@ -54,11 +73,11 @@
     '<aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarTitle">' +
         '<div class="offcanvas-header border-bottom">' +
             '<h5 class="offcanvas-title text-dark fw-bold" id="sidebarTitle">SK KK Profiling</h5>' +
-            '<button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>' +
+            '<button type="button" class="btn-close " data-bs-dismiss="offcanvas" data-bs-target="#sidebar" aria-label="Close"></button>' +
         '</div>' +
         '<div class="offcanvas-body d-flex flex-column p-3">' +
-            '<a href="dashboard.html" class="d-flex align-items-center gap-2 text-decoration-none mb-4 px-1 pt-1">' +
-                '<span class="brand-badge">SK</span>' +
+            '<a href="dashboard.php" class="d-flex align-items-center gap-2 text-decoration-none mb-4 px-1 pt-1">' +
+                '<span class="brand-badge"><img src="images/sk-logo.jpg" alt="SK Barangay Sikat logo"></span>' +
                 '<span class="lh-1">' +
                     '<span class="d-block fw-bold text-dark" style="font-size:15px;">SANGGUNIANG</span>' +
                     '<span class="d-block fw-bold text-dark mt-1" style="font-size:15px;">KABATAAN</span>' +

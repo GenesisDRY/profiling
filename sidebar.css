@@ -80,15 +80,24 @@ body{
 }
 
 .brand-badge{
-    width:46px;
-    height:46px;
+    width:50px;
+    height:50px;
+    flex-shrink:0;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     font-weight:900;
     border-radius:14px;
+    overflow:hidden;
     background:var(--bs-primary);
     color:var(--bs-white);
+}
+
+.brand-badge img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
 .sidebar-section-title{
@@ -202,4 +211,41 @@ body{
 
 .progress-bar.bg-warning{
     background-color:var(--bs-secondary)!important;
+}
+
+/* =========================================================
+   PUBLIC VIEWER  (view only)
+   <html class="is-public"> is set by PHP for visitors who chose
+   "Continue as Public Viewer". Every add / edit / delete / save /
+   manage control is hidden. (api.php also refuses their saves.)
+   ========================================================= */
+html.is-public .admin-only,
+/* printing is for SK officials only */
+html.is-public [data-act="print"],
+html.is-public [data-print],
+html.is-public #printListBtn,
+html.is-public .print-btn,
+/* members */
+html.is-public [data-act="role"],
+html.is-public [data-act="kkedit"],
+html.is-public [data-act="remove"],
+html.is-public #dismissUnlinked,
+/* SK meetings */
+html.is-public [onclick="openMeetingForm()"],
+html.is-public [data-att],
+html.is-public [data-edit],
+html.is-public [data-del],
+html.is-public #saveAttendanceBtn,
+html.is-public #meetingSubmitBtn,
+/* reports: budget + expenses forms and row actions */
+html.is-public .fund-box,
+html.is-public .entry-card,
+html.is-public .table-action,
+html.is-public .expense-table th:last-child,
+html.is-public .expense-table td:last-child:not(.empty-row){
+    display:none!important;
+}
+
+html.is-public .entry-grid{
+    grid-template-columns:1fr;
 }
