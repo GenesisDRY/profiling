@@ -542,6 +542,10 @@ if (in_array($action, ['role_assign', 'role_update', 'role_end', 'role_archive',
             }
             if ($roleId === '' || $oldRole) throw new RuntimeException('The role id is missing or already exists.');
             $validated = sk_role_validate_payload($inputRole);
+            if ($validated['position'] === 'SK Kagawad'
+                && sk_role_committee_is_assigned($roles, (string)$validated['committee'])) {
+                throw new RuntimeException('This committee is already assigned to an active SK Kagawad.');
+            }
             $newRole = array_merge($validated, [
                 'id' => $roleId,
                 'kkId' => $kkId,
@@ -577,6 +581,10 @@ if (in_array($action, ['role_assign', 'role_update', 'role_end', 'role_archive',
             $newStatus = is_array($roleInput) ? (string)($roleInput['status'] ?? $oldRole['status']) : '';
             if (!in_array($newStatus, ['Active', 'Inactive'], true)) {
                 throw new RuntimeException('Use the dedicated archive action to archive an SK role.');
+            }
+            if ($newStatus === 'Active' && $validated['position'] === 'SK Kagawad'
+                && sk_role_committee_is_assigned($roles, (string)$validated['committee'], (string)$oldRole['id'])) {
+                throw new RuntimeException('This committee is already assigned to an active SK Kagawad.');
             }
             $newRole['status'] = $newStatus;
             if (!isset($newRole['history']) || !is_array($newRole['history'])) $newRole['history'] = [];

@@ -802,7 +802,8 @@ textarea.form-control{ min-height:0; }
         'Committee on Youth Employment and Livelihood',
         'Committee on Health',
         'Committee on Gender and Development (GAD)',
-        'Committee on Sports Development'
+        'Committee on Sports Development',
+        'Committee on Anti-Drug Abuse and Social Protection'
     ];
     var PUROKS = ['Purok 1', 'Purok 2', 'Purok 3', 'Purok 4', 'Purok 5'];
     var kkName = D.kkName, calcAge = D.calcAge, norm = D.norm, todayISO = D.todayISO;
@@ -1321,8 +1322,8 @@ textarea.form-control{ min-height:0; }
         var f = $('roleForm');
         f.reset(); clearErrs(f);
         fillSelect($('rolePosition'), POSITIONS, 'Select SK position');
-        fillSelect($('roleCommittee'), COMMITTEES, 'Select committee');
         var role = kkId ? memberRoleOf(kkId) : null, m = kkId ? D.kkById(kkId) : null;
+        fillCommitteeSelect(role ? role.id : null);
         roleKkId = kkId || null; roleEditing = !!role; respTouched = false; yearTouched = false;
         $('roleModalTitle').textContent = role ? 'Edit SK Role and Term' : 'Assign SK Role';
         $('roleSaveLabel').textContent = role ? 'Update SK Role' : 'Assign SK Role';
@@ -1349,6 +1350,17 @@ textarea.form-control{ min-height:0; }
         updateCommitteeField();
         renderPosChoices();
         modal('roleModal').show();
+    }
+
+    function fillCommitteeSelect(exceptRoleId) {
+        var assigned = D.roles.filter(function (role) {
+            return role.id !== exceptRoleId && role.position === 'SK Kagawad'
+                && role.status === 'Active' && role.committee;
+        }).map(function (role) { return role.committee; });
+        var available = COMMITTEES.filter(function (committee) {
+            return assigned.indexOf(committee) === -1;
+        });
+        fillSelect($('roleCommittee'), available, 'Select committee');
     }
 
     function updateCommitteeField() {
@@ -1414,6 +1426,10 @@ textarea.form-control{ min-height:0; }
             yr = $('roleYear').value.trim(), el = $('roleElected').value, ts = $('roleStart').value, te = $('roleEnd').value;
         if (!pos) bad($('rolePosition'), 'Select an SK position.');
         if (pos === 'SK Kagawad' && !committee) bad($('roleCommittee'), 'Select a committee for this SK Kagawad.');
+        if (pos === 'SK Kagawad' && st === 'Active' && D.roles.some(function (role) {
+            return role.id !== (existing ? existing.id : null) && role.position === 'SK Kagawad'
+                && role.status === 'Active' && role.committee === committee;
+        })) bad($('roleCommittee'), 'This committee is already assigned to an active SK Kagawad.');
         if (!existing && st !== 'Active') bad($('roleStatus'), 'A new SK role must start as Active.');
         if (!basis) bad($('roleBasis'), 'Select elected or appointed.');
         if (!yr) bad($('roleYear'), 'Election year is required.');

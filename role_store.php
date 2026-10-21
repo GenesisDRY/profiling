@@ -132,6 +132,18 @@ function sk_role_valid_date($value, $field, $required = false) {
     return $value;
 }
 
+function sk_role_committee_is_assigned($roles, $committee, $exceptRoleId = null) {
+    foreach ($roles as $role) {
+        if (!is_array($role)
+            || (string)($role['id'] ?? '') === (string)$exceptRoleId
+            || ($role['position'] ?? '') !== 'SK Kagawad'
+            || ($role['status'] ?? '') !== 'Active'
+            || ($role['committee'] ?? '') !== $committee) continue;
+        return true;
+    }
+    return false;
+}
+
 function sk_role_validate_payload($input) {
     if (!is_array($input)) throw new RuntimeException('A role object is required.');
     $positions = ['SK Chairperson', 'SK Secretary', 'SK Treasurer', 'SK Kagawad'];
@@ -142,6 +154,7 @@ function sk_role_validate_payload($input) {
         'Committee on Health',
         'Committee on Gender and Development (GAD)',
         'Committee on Sports Development',
+        'Committee on Anti-Drug Abuse and Social Protection',
     ];
     $position = $input['position'] ?? '';
     $committee = $input['committee'] ?? '';
@@ -152,6 +165,7 @@ function sk_role_validate_payload($input) {
         if (!is_string($committee) || !in_array($committee, $committees, true)) {
             throw new RuntimeException('Select a valid committee for the SK Kagawad.');
         }
+
     } elseif ($committee !== '' && $committee !== null) {
         throw new RuntimeException('Only SK Kagawad roles can have a committee assignment.');
     }
