@@ -10,7 +10,7 @@ require_viewer();
     <title>Archives | KK Youth Profiling System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="sidebar.css?v=8" rel="stylesheet">
+    <link href="sidebar.css?v=9" rel="stylesheet">
     <style>
         :root { --line:var(--bs-border-color); --muted:var(--bs-secondary-color); }
         * { box-sizing:border-box; }
@@ -134,7 +134,7 @@ foreach ($archiveRows as $archiveRow) $archiveCounts[$archiveRow['type']]++;
 </head>
 <body>
 <div class="top-strip"></div>
-<script src="sidebar.js?v=4"></script>
+<script src="sidebar.js?v=6"></script>
 <main class="main page-content">
     <header class="header">
         <div class="d-flex align-items-center gap-2">
@@ -150,7 +150,7 @@ foreach ($archiveRows as $archiveRow) $archiveCounts[$archiveRow['type']]++;
                 <div class="header-identity-name"><?= e(uname()) ?></div>
                 <div class="header-identity-role"><?= e(strtoupper(urole())) ?></div>
             </div>
-            <a href="logout.php" class="btn btn-sm header-logout">
+            <a href="<?= is_public() ? 'login.php' : 'logout.php' ?>" class="btn btn-sm header-logout">
                 <i class="bi bi-box-arrow-right me-1"></i>
                 <?= is_public() ? 'Official Login' : 'Logout' ?>
             </a>

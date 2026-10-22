@@ -62,7 +62,7 @@ foreach ($officials as $o) { $groups[$o['position']][] = $o; }
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="sidebar.css?v=8" rel="stylesheet">
+    <link href="sidebar.css?v=9" rel="stylesheet">
 
     <style>
         :root { --line:var(--bs-border-color); --cream:var(--bs-tertiary-bg); }
@@ -93,7 +93,7 @@ foreach ($officials as $o) { $groups[$o['position']][] = $o; }
 <div class="top-strip"></div>
 
 <script>window.SK_PUBLIC = <?= is_limited_viewer() ? 'true' : 'false' ?>;</script>
-<script src="sidebar.js?v=4"></script>
+<script src="sidebar.js?v=6"></script>
 
 <main class="main page-content">
 

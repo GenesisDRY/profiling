@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="sidebar.css?v=8" rel="stylesheet">
+    <link href="sidebar.css?v=9" rel="stylesheet">
     <link href="vendor/summernote/summernote-bs5.min.css" rel="stylesheet">
 
     <style>
@@ -474,7 +474,7 @@ html{
 
 <div class="top-strip"></div>
 
-<script src="sidebar.js?v=4"></script>
+<script src="sidebar.js?v=6"></script>
 
 
 <div class="page-content">
@@ -532,7 +532,7 @@ html{
 
                 </div>
 
-                <a href="logout.php"
+                <a href="<?= is_public() ? 'login.php' : 'logout.php' ?>"
                    class="btn btn-sm header-logout">
 
                     <i class="bi bi-box-arrow-right me-1"></i>
